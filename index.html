@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web to APK Builder + Kevel Demo</title>
+    <title>Web to APK + Kevel Showcase</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
@@ -32,7 +32,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px 20px 80px 20px; /* Extra padding bottom for sticky ad */
+            padding: 20px 20px 80px 20px; /* Padding for sticky footer */
         }
 
         /* --- Main App Container --- */
@@ -62,7 +62,6 @@
         }
         input[type="text"]:focus { border-color: var(--text-secondary); }
 
-        /* --- File Drop --- */
         .file-drop-area {
             border: 1px dashed var(--border-color); border-radius: 6px; padding: 20px;
             text-align: center; cursor: pointer; position: relative; background: var(--bg-color);
@@ -72,11 +71,10 @@
         .file-msg { font-size: 0.85rem; color: var(--text-secondary); }
         input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 
-        /* --- Buttons --- */
         button {
             width: 100%; background: var(--accent-color); color: white; border: none;
             padding: 14px; border-radius: 6px; font-size: 0.9rem; font-weight: 500;
-            cursor: pointer; transition: 0.2s;
+            cursor: pointer; transition: 0.2s; margin-top: 10px;
         }
         button:hover { background: var(--accent-hover); }
         button:disabled { opacity: 0.5; cursor: wait; }
@@ -85,73 +83,81 @@
         .icon-preview { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; display: none; margin: 0 auto 10px auto; border: 1px solid var(--border-color); }
 
         /* --- KEVEL AD STYLES (DEMO) --- */
-        .kevel-ad-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #000;
-            overflow: hidden;
-            position: relative;
-            margin: 20px 0;
+        
+        /* General Ad Label */
+        .ad-badge {
+            position: absolute; top: 4px; right: 4px;
+            background: rgba(0,0,0,0.6); color: #fff; font-size: 9px;
+            padding: 2px 4px; border-radius: 2px; text-transform: uppercase;
+            pointer-events: none;
         }
 
-        .kevel-ad-label {
-            position: absolute;
-            top: 0; right: 0;
-            background: rgba(255,255,255,0.2);
-            color: #fff;
-            font-size: 8px;
-            padding: 2px 4px;
-            z-index: 10;
-        }
-
-        /* 300x250 Inline Ad */
-        #ad-slot-inline {
-            min-height: 250px;
-            border: 1px solid var(--border-color);
+        /* 1. NATIVE AD STYLE */
+        .native-ad {
+            border: 1px solid #333;
+            background: #111;
+            padding: 15px;
             border-radius: 8px;
-        }
-
-        /* 320x50 Sticky Footer Ad */
-        #ad-slot-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60px; /* 50px ad + padding */
-            background: var(--surface-color);
-            border-top: 1px solid var(--border-color);
-            z-index: 100;
             display: flex;
-            justify-content: center;
             align-items: center;
+            gap: 15px;
+            position: relative;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .native-ad:hover { border-color: #555; }
+        .native-img { width: 50px; height: 50px; background: #333; border-radius: 6px; object-fit: cover; }
+        .native-content h4 { margin: 0 0 4px 0; font-size: 14px; color: #fff; }
+        .native-content p { margin: 0; font-size: 12px; color: #888; }
+
+        /* 2. STICKY FOOTER STYLE */
+        #ad-slot-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 60px;
+            background: var(--surface-color); border-top: 1px solid var(--border-color);
+            z-index: 100; display: flex; justify-content: center; align-items: center;
         }
 
-        /* Console Log for Demo Purposes */
+        /* 3. INTERSTITIAL / POPUP OVERLAY */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 999;
+            display: none; justify-content: center; align-items: center;
+            flex-direction: column;
+        }
+        .interstitial-card {
+            width: 90%; max-width: 320px; height: 480px;
+            background: #fff; position: relative;
+            display: flex; flex-direction: column;
+            border-radius: 8px; overflow: hidden;
+        }
+        .close-ad {
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(0,0,0,0.5); color: white;
+            width: 30px; height: 30px; border-radius: 50%;
+            text-align: center; line-height: 30px; cursor: pointer; z-index: 10;
+        }
+
+        /* Debug Console */
         .debug-console {
-            width: 100%;
-            max-width: 480px;
-            background: #000;
-            color: #0f0;
-            font-family: monospace;
-            font-size: 10px;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 20px;
-            height: 100px;
-            overflow-y: auto;
+            width: 100%; max-width: 480px; background: #000; color: #0f0;
+            font-family: monospace; font-size: 10px; padding: 10px;
+            border-radius: 6px; margin-top: 20px; height: 120px; overflow-y: auto;
             border: 1px solid #333;
         }
-        .debug-entry { margin-bottom: 4px; border-bottom: 1px solid #111; }
-        .debug-entry span { color: #888; }
+        .debug-entry { margin-bottom: 4px; border-bottom: 1px solid #111; padding-bottom: 2px; }
+        .debug-entry span { color: #888; margin-right: 5px; }
+        .debug-imp { color: #f59e0b; } /* Yellow for impression */
+        .debug-click { color: #10b981; } /* Green for click */
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>Web to Android</h1>
-        <p class="subtitle">Convert HTML to Native Project</p>
+        <p class="subtitle">Kevel Ad Integration Demo</p>
+
+        <div id="ad-slot-native"></div>
 
         <div class="group">
             <label>Application Name</label>
@@ -163,14 +169,11 @@
             <input type="text" id="packageId" placeholder="com.harsha.app">
         </div>
 
-        <div id="ad-slot-inline" class="kevel-ad-container">
-            </div>
-
-        <div class="group" style="margin-top: 1.5rem;">
-            <label>App Icon (Optional)</label>
+        <div class="group">
+            <label>App Icon</label>
             <div class="file-drop-area" id="iconDrop">
                 <img id="iconPreview" class="icon-preview" alt="Icon Preview">
-                <span class="file-msg" id="iconMsg">Click to upload icon (PNG/JPG)</span>
+                <span class="file-msg" id="iconMsg">Click to upload icon</span>
                 <input type="file" id="iconFile" accept="image/png, image/jpeg, image/jpg">
             </div>
         </div>
@@ -183,7 +186,12 @@
             </div>
         </div>
 
-        <button id="generateBtn" onclick="generateProject()">GENERATE PROJECT ZIP</button>
+        <button id="generateBtn" onclick="generateProjectWithAd()">GENERATE PROJECT ZIP</button>
+        
+        <button onclick="showRewardedAd()" style="background: transparent; border: 1px dashed #333; margin-top: 15px; color: #666;">
+            ▶ Watch Ad for Premium Features (Demo)
+        </button>
+
         <div id="status"></div>
     </div>
 
@@ -191,149 +199,203 @@
         <div class="debug-entry"><span>System:</span> Kevel Tracking SDK Initialized...</div>
     </div>
 
-    <footer>
-        Made with ❤️ Harsha Varthan E P
-    </footer>
+    <footer>Made with ❤️ Harsha Varthan E P</footer>
 
-    <div id="ad-slot-footer">
-        <div class="kevel-ad-container" style="width:320px; height:50px; margin:0; border-radius: 4px;">
-            </div>
-    </div>
+    <div id="ad-slot-footer"></div>
+
+    <div id="interstitial-overlay" class="overlay">
+        </div>
 
     <script>
         /* =========================================
-           1. KEVEL AD SERVER MOCK SDK
-           (Use this to demo to client before real integration)
+           1. KEVEL AD SERVER MOCK SDK (Advanced)
            ========================================= */
 
         const MockKevelSDK = {
-            // Simulating Kevel Decision API Response
-            getDecision: async (placementId, type) => {
-                logDebug(`Requesting Ad Decision for Placement: ${placementId}...`);
-                
-                // Simulate network latency (makes it feel real)
-                await new Promise(r => setTimeout(r, 600));
-
-                const timestamp = new Date().getTime();
-
-                // Mock Response Data based on Kevel JSON structure
-                if (type === 'inline') {
-                    return {
-                        adId: 101,
-                        creativeId: 505,
-                        impressionUrl: `https://e-1234.adzerk.net/i.gif?t=${timestamp}`,
-                        clickUrl: `https://e-1234.adzerk.net/r?t=${timestamp}`,
-                        contents: [{
-                            type: "html",
-                            body: `
-                                <a href="#" target="_blank" style="display:block; text-decoration:none;">
-                                    <div style="width:300px; height:250px; background:linear-gradient(45deg, #222, #444); display:flex; flex-direction:column; justify-content:center; align-items:center; color:#fff; position:relative;">
-                                        <div style="font-weight:bold; font-size:24px; margin-bottom:10px;">HOSTINGER</div>
-                                        <div style="font-size:14px; opacity:0.8;">Web Hosting Sale</div>
-                                        <button style="margin-top:15px; padding:8px 16px; background:#10b981; border:none; color:white; border-radius:4px; font-size:12px;">Get Started</button>
-                                    </div>
-                                </a>
-                            `
-                        }]
-                    };
-                } else if (type === 'footer') {
-                    return {
-                        adId: 102,
-                        creativeId: 606,
-                        impressionUrl: `https://e-1234.adzerk.net/i.gif?t=${timestamp}`,
-                        clickUrl: `https://e-1234.adzerk.net/r?t=${timestamp}`,
-                        contents: [{
-                            type: "html",
-                            body: `
-                                <a href="#" target="_blank" style="display:block; text-decoration:none;">
-                                    <div style="width:320px; height:50px; background:#1e40af; display:flex; align-items:center; justify-content:space-between; padding:0 15px; color:#fff;">
-                                        <span style="font-weight:bold;">ZOHO</span>
-                                        <span style="font-size:12px;">Run your entire business.</span>
-                                        <span style="font-size:18px;">&rarr;</span>
-                                    </div>
-                                </a>
-                            `
-                        }]
-                    };
+            
+            // Mock Data for different formats
+            adInventory: {
+                native: {
+                    id: 101,
+                    impUrl: "https://e-1234.adzerk.net/i.gif?native",
+                    clkUrl: "https://e-1234.adzerk.net/r?native",
+                    content: `
+                        <div class="native-ad">
+                            <div class="ad-badge">Sponsored</div>
+                            <img src="https://via.placeholder.com/100/3b82f6/ffffff?text=Icon" class="native-img">
+                            <div class="native-content">
+                                <h4>IconMaker Pro</h4>
+                                <p>Create professional app icons in seconds using AI.</p>
+                            </div>
+                        </div>`
+                },
+                footer: {
+                    id: 102,
+                    impUrl: "https://e-1234.adzerk.net/i.gif?footer",
+                    clkUrl: "https://e-1234.adzerk.net/r?footer",
+                    content: `
+                        <div style="width:320px; height:50px; background:#1e40af; display:flex; align-items:center; justify-content:space-between; padding:0 15px; color:#fff; position:relative; overflow:hidden;">
+                            <div class="ad-badge" style="background:rgba(255,255,255,0.2);">Ad</div>
+                            <span style="font-weight:bold;">ZOHO CRM</span>
+                            <span style="font-size:12px;">Automate your sales.</span>
+                            <span style="font-size:18px;">&rarr;</span>
+                        </div>`
+                },
+                interstitial: {
+                    id: 103,
+                    impUrl: "https://e-1234.adzerk.net/i.gif?interstitial",
+                    clkUrl: "https://e-1234.adzerk.net/r?interstitial",
+                    content: `
+                        <div class="interstitial-card">
+                            <div class="close-ad" onclick="closeInterstitial()">×</div>
+                            <div style="height:60%; background: #4f46e5; display:flex; align-items:center; justify-content:center; color:white; font-size:30px; font-weight:bold;">
+                                CLOUD HOSTING
+                            </div>
+                            <div style="height:40%; padding:20px; text-align:center; color:#333;">
+                                <h3>50% Off First Month</h3>
+                                <p style="font-size:14px; color:#666;">Deploy your Web APKs instantly.</p>
+                                <button style="width:100%; background:#4f46e5; color:white; padding:10px; border:none; border-radius:4px; margin-top:10px;">Claim Offer</button>
+                            </div>
+                            <div class="ad-badge" style="top:auto; bottom:4px; right:4px; color:#333; background:#eee;">Ads by Kevel</div>
+                        </div>`
+                },
+                rewarded: {
+                    id: 104,
+                    impUrl: "https://e-1234.adzerk.net/i.gif?rewarded",
+                    clkUrl: "https://e-1234.adzerk.net/r?rewarded",
+                    content: `
+                        <div class="interstitial-card" style="background:#000; color:#fff;">
+                            <div style="height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                                <h2 style="color:#10b981;">WATCHING AD...</h2>
+                                <div style="width:200px; height:4px; background:#333; margin:20px 0; border-radius:2px;">
+                                    <div id="reward-progress" style="width:0%; height:100%; background:#10b981; transition: width 3s linear;"></div>
+                                </div>
+                                <p>Reward granted in 3s</p>
+                            </div>
+                        </div>`
                 }
             },
 
-            // Simulate firing a tracking pixel
-            firePixel: (url, type) => {
-                // In production, this would be: new Image().src = url;
-                logDebug(`[${type.toUpperCase()}] Tracking Pixel Fired: ${url.substring(0, 30)}...`);
+            getDecision: async (type) => {
+                // Simulate Request Latency
+                await new Promise(r => setTimeout(r, 400)); 
+                return MockKevelSDK.adInventory[type];
+            },
+
+            trackImpression: (type, url) => {
+                logDebug(type.toUpperCase(), `Impression tracked: ${url}`);
+            },
+
+            trackClick: (type, url) => {
+                logDebug(type.toUpperCase(), `Click tracked: ${url}`);
             }
         };
 
-        // Render Ads Function
-        async function initKevelAds() {
-            // 1. Render Inline Ad
-            const inlineAd = await MockKevelSDK.getDecision('div-gpt-ad-inline', 'inline');
-            renderAd('ad-slot-inline', inlineAd);
 
-            // 2. Render Footer Ad
-            const footerAd = await MockKevelSDK.getDecision('div-gpt-ad-footer', 'footer');
-            const footerContainer = document.querySelector('#ad-slot-footer .kevel-ad-container');
-            // Clear existing content just in case
-            footerContainer.innerHTML = ''; 
-            
-            // Create a wrapper for the footer ad
-            const wrapper = document.createElement('div');
-            wrapper.innerHTML = footerAd.contents[0].body;
-            
-            // Add Kevel "Ad" Label
-            const label = document.createElement('div');
-            label.className = 'kevel-ad-label';
-            label.innerText = 'Ads by Kevel';
-            
-            // Append
-            wrapper.style.position = 'relative';
-            wrapper.appendChild(label);
-            footerContainer.appendChild(wrapper);
+        /* =========================================
+           2. AD LOGIC & CONTROLLERS
+           ========================================= */
 
-            // Attach Click/Impression Logic
-            MockKevelSDK.firePixel(footerAd.impressionUrl, 'impression');
-            wrapper.addEventListener('click', () => MockKevelSDK.firePixel(footerAd.clickUrl, 'click'));
+        // Init Static Ads (Native & Footer)
+        async function loadStaticAds() {
+            // 1. Load Native Ad
+            const nativeData = await MockKevelSDK.getDecision('native');
+            const nativeSlot = document.getElementById('ad-slot-native');
+            nativeSlot.innerHTML = nativeData.content;
+            
+            // Tracking
+            MockKevelSDK.trackImpression('native', nativeData.impUrl);
+            nativeSlot.onclick = () => MockKevelSDK.trackClick('native', nativeData.clkUrl);
+
+            // 2. Load Footer Ad
+            const footerData = await MockKevelSDK.getDecision('footer');
+            const footerSlot = document.getElementById('ad-slot-footer');
+            footerSlot.innerHTML = footerData.content;
+
+            // Tracking
+            MockKevelSDK.trackImpression('footer', footerData.impUrl);
+            footerSlot.onclick = () => MockKevelSDK.trackClick('footer', footerData.clkUrl);
         }
 
-        // Helper to render into a div
-        function renderAd(elementId, adData) {
-            const el = document.getElementById(elementId);
-            if(!el) return;
+        // Logic for Interstitial (Popup)
+        async function generateProjectWithAd() {
+            // Check file first
+            const htmlInput = document.getElementById('htmlFile');
+            const status = document.getElementById('status');
+            if (!htmlInput.files.length) {
+                status.textContent = "⚠ Please upload an index.html file.";
+                status.style.color = "#ef4444";
+                return;
+            }
 
-            el.innerHTML = adData.contents[0].body;
+            // 1. Show Loading State
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            btn.textContent = "LOADING AD...";
+
+            // 2. Fetch & Show Interstitial
+            const adData = await MockKevelSDK.getDecision('interstitial');
+            const overlay = document.getElementById('interstitial-overlay');
+            overlay.innerHTML = adData.content;
+            overlay.style.display = 'flex';
+
+            // Tracking
+            MockKevelSDK.trackImpression('interstitial', adData.impUrl);
             
-            // Add Label
-            const label = document.createElement('div');
-            label.className = 'kevel-ad-label';
-            label.innerText = 'Ads by Kevel';
-            el.firstChild.appendChild(label); // inject label into anchor/wrapper
-
-            // Track Impression
-            MockKevelSDK.firePixel(adData.impressionUrl, 'impression');
-
-            // Track Click
-            el.addEventListener('click', function() {
-                MockKevelSDK.firePixel(adData.clickUrl, 'click');
-            });
+            // Allow closing logic
+            window.currentInterstitialClickUrl = adData.clkUrl;
         }
 
-        function logDebug(msg) {
+        function closeInterstitial() {
+            // Close Ad
+            document.getElementById('interstitial-overlay').style.display = 'none';
+            
+            // Resume App Logic
+            const btn = document.getElementById('generateBtn');
+            btn.textContent = "PROCESSING...";
+            generateProject(); // Call the actual APK builder function
+        }
+
+        // Logic for Rewarded Video
+        async function showRewardedAd() {
+            const adData = await MockKevelSDK.getDecision('rewarded');
+            const overlay = document.getElementById('interstitial-overlay');
+            overlay.innerHTML = adData.content;
+            overlay.style.display = 'flex';
+            
+            MockKevelSDK.trackImpression('rewarded', adData.impUrl);
+
+            // Simulate Video Play
+            setTimeout(() => {
+                document.getElementById('reward-progress').style.width = "100%";
+            }, 100);
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                alert("Reward Granted! Premium features unlocked (Demo).");
+                MockKevelSDK.trackClick('rewarded', adData.clkUrl + "?type=complete");
+            }, 3500);
+        }
+
+        function logDebug(type, msg) {
             const consoleEl = document.getElementById('debugConsole');
             const entry = document.createElement('div');
             entry.className = 'debug-entry';
+            
+            const typeColor = type === 'IMPRESSION' ? 'debug-imp' : 'debug-click';
+            
             const time = new Date().toLocaleTimeString();
-            entry.innerHTML = `<span>${time}:</span> ${msg}`;
+            entry.innerHTML = `<span>${time}</span> <b class="${typeColor}">[${type}]</b> ${msg}`;
             consoleEl.appendChild(entry);
             consoleEl.scrollTop = consoleEl.scrollHeight;
         }
 
-        // Initialize Ads on Load
-        window.addEventListener('DOMContentLoaded', initKevelAds);
+        // Load static ads on startup
+        window.addEventListener('DOMContentLoaded', loadStaticAds);
 
 
         /* =========================================
-           2. EXISTING APK BUILDER LOGIC
+           3. CORE APK BUILDER LOGIC (Unchanged)
            ========================================= */
 
         document.getElementById('htmlFile').addEventListener('change', function(e) {
@@ -350,7 +412,6 @@
                     const img = document.getElementById('iconPreview');
                     img.src = e.target.result;
                     img.style.display = 'block';
-                    document.getElementById('iconMsg').textContent = file.name;
                 }
                 reader.readAsDataURL(file);
             }
@@ -364,17 +425,7 @@
             const btn = document.getElementById('generateBtn');
             const status = document.getElementById('status');
 
-            if (!htmlInput.files.length) {
-                status.textContent = "⚠ Please upload an index.html file.";
-                status.style.color = "#ef4444";
-                return;
-            }
-
-            btn.disabled = true;
-            btn.textContent = "PROCESSING...";
-            status.style.color = "var(--text-secondary)";
-            status.textContent = "Reading files...";
-            logDebug("Starting APK Project Generation...");
+            status.textContent = "Building Android structure...";
 
             try {
                 const htmlFile = htmlInput.files[0];
@@ -383,13 +434,10 @@
 
                 let iconData = null;
                 if (iconInput.files.length) {
-                    status.textContent = "Processing icon...";
                     iconData = await processIcon(iconInput.files[0]);
                 } else {
                     iconData = await generateDefaultIcon(appName.charAt(0).toUpperCase());
                 }
-
-                status.textContent = "Building Android structure...";
                 
                 // Gradle Files
                 zip.file("build.gradle", getRootGradle());
@@ -426,7 +474,6 @@
                 const assets = main.folder("assets");
                 assets.file("index.html", htmlContent);
 
-                status.textContent = "Compressing...";
                 const content = await zip.generateAsync({type:"blob"});
                 saveAs(content, `${appName.replace(/\s+/g, '_')}_Android_Project.zip`);
 
@@ -434,13 +481,11 @@
                 status.style.color = "var(--success-color)";
                 btn.textContent = "GENERATE PROJECT ZIP";
                 btn.disabled = false;
-                logDebug("Project Generated Successfully.");
 
             } catch (err) {
                 console.error(err);
                 status.textContent = "Error: " + err.message;
                 btn.disabled = false;
-                logDebug("Error: " + err.message);
             }
         }
 
