@@ -25,7 +25,6 @@
             --blur: 0px;
         }
 
-        /* Base Styles */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         .hidden { display: none !important; }
@@ -33,86 +32,74 @@
         .fade-in { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- KEVEL AD STYLING --- */
-        .kevel-ad-native {
-            background: #111;
-            border: 1px dashed var(--border);
-            border-radius: var(--radius);
-            padding: 12px;
-            margin: 15px 0;
-            display: flex;
-            gap: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .kevel-ad-native:hover { border-color: #555; }
-        .kevel-img { width: 50px; height: 50px; border-radius: 4px; object-fit: cover; background: #222; }
-        .kevel-tag { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-        .kevel-title { font-size: 0.85rem; font-weight: 600; color: #fff; }
-        .kevel-body { font-size: 0.75rem; color: #888; margin-top: 2px; }
-
-        .kevel-banner {
-            width: 100%;
-            border-radius: var(--radius);
-            background: linear-gradient(90deg, #141414 0%, #000 100%);
-            border: 1px solid var(--border);
-            padding: 15px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        /* --- UI COMPONENTS --- */
+        /* --- HEADER --- */
         header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.95); border-bottom: 1px solid var(--border); z-index: 50; }
         .header-left h1 { font-size: 1rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
         .header-left p { font-size: 0.75rem; color: var(--text-muted); }
         .privacy-btn { font-size: 1.1rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
         .privacy-btn.active { color: var(--text-main); }
 
+        /* --- MAIN SCROLL --- */
         main { flex: 1; overflow-y: auto; padding: 20px 20px 140px; scroll-behavior: smooth; }
 
-        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+        /* --- CARDS --- */
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; position: relative; }
         .metric-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 8px; display: flex; justify-content: space-between; }
         .metric-val { font-size: 2rem; font-weight: 600; letter-spacing: -1px; color: var(--text-main); }
         .metric-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 8px; display: flex; align-items: center; gap: 6px; }
 
-        .ai-banner { background: var(--surface-2); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); margin-bottom: 20px; display: flex; gap: 15px; align-items: center; }
+        /* --- KEVEL NATIVE AD STYLING --- */
+        .kevel-ad-native {
+            background: #111;
+            border: 1px dashed #333;
+            border-radius: var(--radius);
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .kevel-ad-native:active { transform: scale(0.98); }
+        .kevel-tag { position: absolute; top: 8px; right: 10px; font-size: 0.6rem; color: #444; border: 1px solid #333; padding: 2px 5px; border-radius: 4px; text-transform: uppercase; }
+        .kevel-img { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; background: #222; }
+        .kevel-body { flex: 1; }
+        .kevel-title { font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 2px; }
+        .kevel-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.2; }
+        .kevel-cta { margin-top: 8px; font-size: 0.7rem; font-weight: 700; color: var(--success); text-transform: uppercase; }
+
+        /* --- CUTEBOT AVATAR --- */
+        .ai-banner { background: var(--surface-2); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); margin-bottom: 20px; display: flex; gap: 15px; align-items: center; transition: all 0.3s ease; }
         .bot-container { width: 50px; height: 40px; position: relative; }
-        .bot-head { width: 100%; height: 100%; background: #fff; border-radius: 10px; position: relative; animation: botFloat 3s ease-in-out infinite; display: flex; justify-content: center; align-items: center; }
+        .bot-head { width: 100%; height: 100%; background: #fff; border-radius: 10px; position: relative; animation: botFloat 3s ease-in-out infinite; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
         .bot-face { display: flex; gap: 8px; justify-content: center; align-items: center; width: 100%; }
         .bot-eye { width: 8px; height: 10px; background: #000; border-radius: 4px; animation: botBlink 4s infinite; }
-
         @keyframes botFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
         @keyframes botBlink { 0%,90%,100%{transform:scaleY(1)} 95%{transform:scaleY(0.1)} }
 
+        /* --- UI ELEMENTS --- */
         .list-header { display: flex; justify-content: space-between; align-items: center; margin: 30px 0 15px; }
         .list-header h3 { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        
         .item-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-        .item-row:last-child { border-bottom: none; }
-
         .dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: #111; border: 1px solid var(--border); border-radius: 12px; display: flex; justify-content: space-between; padding: 12px 25px; z-index: 90; }
-        .dock-item { color: #555; font-size: 1.2rem; cursor: pointer; transition: 0.2s; }
-        .dock-item.active { color: #fff; transform: translateY(-2px); }
-
-        .btn { width: 100%; padding: 16px; border-radius: var(--radius); border: none; font-weight: 600; font-size: 0.9rem; cursor: pointer; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .dock-item { color: #555; font-size: 1.2rem; cursor: pointer; }
+        .dock-item.active { color: #fff; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 200; display: flex; justify-content: center; align-items: flex-end; opacity: 0; pointer-events: none; transition: 0.2s; }
+        .modal.active { opacity: 1; pointer-events: all; }
+        .modal-sheet { background: #0f0f0f; width: 100%; max-width: 500px; border-radius: 16px 16px 0 0; padding: 30px 20px; border-top: 1px solid var(--border); transform: translateY(100%); transition: 0.3s; max-height: 90vh; overflow-y: auto; }
+        .modal.active .modal-sheet { transform: translateY(0); }
+        .input-field { width: 100%; background: #000; border: 1px solid var(--border); color: white; padding: 14px; border-radius: var(--radius); font-size: 0.95rem; outline: none; margin-bottom: 10px; }
+        .btn { width: 100%; padding: 16px; border-radius: var(--radius); border: none; font-weight: 600; font-size: 0.9rem; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
         .btn-primary { background: #fff; color: #000; }
-        .input-field { width: 100%; background: #000; border: 1px solid var(--border); color: white; padding: 14px; border-radius: var(--radius); margin-bottom: 15px; }
-
-        .fab { position: fixed; bottom: 90px; right: 20px; width: 50px; height: 50px; background: #fff; color: #000; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; z-index: 80; cursor: pointer; }
-
-        #onboarding { position: fixed; inset: 0; background: #000; z-index: 300; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; }
+        .fab { position: fixed; bottom: 90px; right: 20px; width: 50px; height: 50px; background: #fff; color: #000; border-radius: 8px; display: flex; justify-content: center; align-items: center; z-index: 80; }
     </style>
 </head>
 <body>
 
     <div id="onboarding" class="hidden">
         <h1 style="font-size: 2rem; letter-spacing: 2px; margin-bottom: 20px;">ZEN WEALTH</h1>
-        <p style="color:var(--text-muted); margin-bottom: 40px; font-size: 0.9rem;">OBSIDIAN PRODUCTION</p>
         <input type="text" id="setupName" class="input-field" placeholder="YOUR NAME" style="text-align: center;">
-        <select id="setupCurrency" class="input-field" style="text-align: center;">
-            <option value="USD">USD ($)</option>
-            <option value="INR">INR (₹)</option>
-        </select>
         <button class="btn btn-primary" onclick="completeOnboarding()">ENTER SYSTEM</button>
     </div>
 
@@ -129,10 +116,7 @@
     <main id="view-home" class="fade-in">
         <div class="ai-banner" id="aiBanner">
             <div class="bot-container"><div class="bot-head"><div class="bot-face"><div class="bot-eye"></div><div class="bot-eye"></div></div></div></div>
-            <div class="ai-content">
-                <div class="ai-title">CuteBot Assistant</div>
-                <div class="ai-text" id="aiMotivation">Hello! I'm ready to track your wealth.</div>
-            </div>
+            <div class="ai-content"><div class="ai-title">CuteBot Assistant</div><div class="ai-text" id="aiMotivation">Hello! I'm ready to track your wealth.</div></div>
         </div>
 
         <div class="card">
@@ -140,21 +124,27 @@
             <div class="metric-val blur-sensitive" id="netWorth">$0.00</div>
         </div>
 
+        <div id="kevel-slot-1"></div>
+
+        <div class="card" style="border-color: #333;">
+            <div class="metric-title" style="color:#fff;">Monthly Cash Flow</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                <div id="flowIncome">$0</div>
+                <div id="flowFixed">$0</div>
+            </div>
+        </div>
+
         <div class="list-header"><h3>Recent Activity</h3></div>
         <div id="homeTransList"></div>
-
-        <div id="kevel-slot-native"></div>
     </main>
 
     <main id="view-analytics" class="hidden fade-in">
         <div class="card" style="height: 250px;"><canvas id="mainChart"></canvas></div>
-        <div id="kevel-slot-banner"></div>
+        <div id="kevel-slot-2"></div>
     </main>
 
     <main id="view-settings" class="hidden fade-in">
-        <div class="card">
-            <button class="btn btn-primary" onclick="hardReset()">Reset All Data</button>
-        </div>
+        <div class="card"><h3 style="margin-bottom:15px;">Settings</h3><div id="kevel-slot-3"></div></div>
     </main>
 
     <div class="dock">
@@ -163,107 +153,107 @@
         <div class="dock-item" onclick="switchView('settings')"><i class="fa-solid fa-gear"></i></div>
     </div>
 
-    <div class="fab" onclick="alert('Add Logic')"><i class="fa-solid fa-plus"></i></div>
+    <script>
+        // --- APP STATE ---
+        let db = { user: { name: '', currency: 'USD' }, transactions: [], assets: [], liabilities: [], goals: [] };
+        
+        // --- KEVEL ENGINE ---
+        const KEVEL_CONFIG = {
+            networkId: 1234, // Replace with your real ID
+            siteId: 5678     // Replace with your real ID
+        };
 
-<script>
-    // --- 1. CORE APP LOGIC ---
-    let db = { user: { name: '', currency: 'USD' }, transactions: [], assets: [], liabilities: [] };
-    
-    function init() {
-        const stored = localStorage.getItem('zenwealth_db');
-        if(stored) { 
-            db = JSON.parse(stored); 
-            document.getElementById('headerName').innerText = db.user.name.toUpperCase();
-            renderAll();
-        } else {
-            document.getElementById('onboarding').classList.remove('hidden');
-        }
-        // Load Ads on init
-        loadKevelAds();
-    }
-
-    function completeOnboarding() {
-        db.user.name = document.getElementById('setupName').value;
-        db.user.currency = document.getElementById('setupCurrency').value;
-        localStorage.setItem('zenwealth_db', JSON.stringify(db));
-        document.getElementById('onboarding').classList.add('hidden');
-        renderAll();
-    }
-
-    function renderAll() {
-        document.getElementById('netWorth').innerText = db.user.currency === 'USD' ? '$0.00' : '₹0.00';
-    }
-
-    function switchView(v) {
-        document.querySelectorAll('main').forEach(m => m.classList.add('hidden'));
-        document.getElementById(`view-${v}`).classList.remove('hidden');
-        document.querySelectorAll('.dock-item').forEach(d => d.classList.remove('active'));
-    }
-
-    function togglePrivacy() {
-        const current = document.documentElement.style.getPropertyValue('--blur');
-        document.documentElement.style.setProperty('--blur', current === '5px' ? '0px' : '5px');
-    }
-
-    function hardReset() { localStorage.clear(); location.reload(); }
-
-    // --- 2. KEVEL AD MANAGER ---
-    const KevelManager = {
-        // Mock Decision API response for demonstration
-        fetchAds: async function() {
-            // In production, this would be a real POST to https://e-{networkId}.adzerk.net/api/v2
-            return {
-                native: {
-                    title: "Obsidian Private Equity",
-                    body: "Exclusive 12% APY for ZenWealth users. Limited slots.",
-                    img: "https://images.unsplash.com/photo-1611974715853-26d305b976c3?auto=format&fit=crop&w=100&q=80",
-                    url: "https://kevel.com"
+        async function fetchKevelAds() {
+            // In production, use the Kevel Decision API POST request
+            // For Demo, we populate high-quality mock ads
+            const mockAds = {
+                "kevel-slot-1": {
+                    headline: "Optimize Your Portfolio",
+                    body: "Our AI-driven insights help you find hidden wealth gaps in your spending.",
+                    cta: "Try Advisor Pro",
+                    img: "https://images.unsplash.com/photo-1611974715853-26d30574299a?auto=format&fit=crop&w=100&q=80"
                 },
-                banner: {
-                    title: "Upgrade to Obsidian Pro",
-                    body: "Advanced tax planning & AI insights.",
-                    url: "https://kevel.com"
+                "kevel-slot-2": {
+                    headline: "0% Commission Trading",
+                    body: "Move your assets to Obsidian Trade and pay zero fees on every single transaction.",
+                    cta: "Open Account",
+                    img: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=100&q=80"
+                },
+                "kevel-slot-3": {
+                    headline: "Secure Your Data",
+                    body: "Upgrade to Obsidian Vault for end-to-end encrypted cloud backups.",
+                    cta: "Go Premium",
+                    img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=100&q=80"
                 }
             };
-        },
 
-        render: async function() {
-            const ads = await this.fetchAds();
-            
-            // Render Native Ad
-            const nativeSlot = document.getElementById('kevel-slot-native');
-            if(nativeSlot) {
-                nativeSlot.innerHTML = `
-                    <div class="kevel-ad-native" onclick="window.open('${ads.native.url}', '_blank')">
-                        <img src="${ads.native.img}" class="kevel-img">
-                        <div>
-                            <div class="kevel-tag">Sponsored</div>
-                            <div class="kevel-title">${ads.native.title}</div>
-                            <div class="kevel-body">${ads.native.body}</div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // Render Banner Ad
-            const bannerSlot = document.getElementById('kevel-slot-banner');
-            if(bannerSlot) {
-                bannerSlot.innerHTML = `
-                    <div class="kevel-banner" onclick="window.open('${ads.banner.url}', '_blank')">
-                        <div class="kevel-tag">Member Offer</div>
-                        <div class="kevel-title" style="color:var(--success)">${ads.banner.title}</div>
-                        <p style="font-size:0.7rem; color:#666; margin-top:5px;">${ads.banner.body}</p>
-                    </div>
-                `;
-            }
+            Object.keys(mockAds).forEach(slotId => {
+                renderKevelAd(slotId, mockAds[slotId]);
+            });
         }
-    };
 
-    function loadKevelAds() {
-        KevelManager.render();
-    }
+        function renderKevelAd(slotId, ad) {
+            const container = document.getElementById(slotId);
+            if(!container) return;
+            container.innerHTML = `
+                <div class="kevel-ad-native" onclick="alert('Kevel: Click Tracking Fired!')">
+                    <div class="kevel-tag">Sponsored</div>
+                    <img src="${ad.img}" class="kevel-img">
+                    <div class="kevel-body">
+                        <div class="kevel-title">${ad.headline}</div>
+                        <div class="kevel-desc">${ad.body}</div>
+                        <div class="kevel-cta">${ad.cta} <i class="fa-solid fa-chevron-right" style="font-size:0.6rem"></i></div>
+                    </div>
+                </div>
+            `;
+        }
 
-    init();
-</script>
+        // --- CORE LOGIC ---
+        function init() {
+            const stored = localStorage.getItem('zenwealth_v1');
+            if(stored) { db = JSON.parse(stored); document.getElementById('onboarding').classList.add('hidden'); renderAll(); } 
+            else { document.getElementById('onboarding').classList.remove('hidden'); }
+            fetchKevelAds();
+        }
+
+        function completeOnboarding() {
+            db.user.name = document.getElementById('setupName').value;
+            localStorage.setItem('zenwealth_v1', JSON.stringify(db));
+            document.getElementById('onboarding').classList.add('hidden');
+            renderAll();
+        }
+
+        function renderAll() {
+            document.getElementById('headerGreeting').innerText = db.user.name.toUpperCase() || "USER";
+            document.getElementById('netWorth').innerText = "$12,450.00"; // Demo Value
+        }
+
+        function switchView(v) {
+            document.querySelectorAll('main').forEach(m => m.classList.add('hidden'));
+            document.getElementById(`view-${v}`).classList.remove('hidden');
+            document.querySelectorAll('.dock-item').forEach(d => d.classList.remove('active'));
+            // Re-render chart if analytics
+            if(v === 'analytics') setTimeout(renderChart, 100);
+        }
+
+        function renderChart() {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+                    datasets: [{ label: 'Net Worth', data: [10000, 11500, 11000, 12450], borderColor: '#00ff9d', tension: 0.4 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: '#222' } } } }
+            });
+        }
+
+        function togglePrivacy() {
+            const isBlur = getComputedStyle(document.documentElement).getPropertyValue('--blur') === '5px';
+            document.documentElement.style.setProperty('--blur', isBlur ? '0px' : '5px');
+        }
+
+        window.onload = init;
+    </script>
 </body>
 </html>
